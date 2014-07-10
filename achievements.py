@@ -75,7 +75,6 @@ def main(argv):
 
     wb = xlwt.Workbook()
     items = allNames.items()
-    print type(items)
     items.sort(key=lambda t : tuple(t[0].lower()))
     ws = wb.add_sheet(gameName);
 
