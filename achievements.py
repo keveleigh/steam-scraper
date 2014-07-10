@@ -37,22 +37,21 @@ def scrape_links(steamName, gameName):
     print page.geturl()
     
     soup = bs(page.read(), 'html.parser')
-        
+
+    name = soup.find('a', attrs={'class':'whiteLink'})
+    name = str(name.contents[0])
+    
     achievements = soup.find('div', attrs={'id':'personalAchieve'})
     achievements = str(achievements).split('<br/><br/><br/>')
     achievements = achievements[0]
     achievements = bs(achievements, 'html.parser')
     achievements = achievements.find_all('h3')
 
-    print len(achievements)
-
-    allNames[steamName] = {}
-    allNames[steamName][gameName] = []
+    allNames[name] = {}
+    allNames[name][gameName] = []
 
     for ach in achievements:
-        allNames[steamName][gameName].append(str(ach.contents[0]))
-
-    print allNames
+        allNames[name][gameName].append(str(ach.contents[0]).strip())
 
 def main(argv):
     if len(argv) < 2:
@@ -60,7 +59,12 @@ def main(argv):
     else:
         gameName = argv[1]
 
-    if os.path.isfile('nameList.txt'):
+    a = open('allAchievements.txt', 'r')
+    achs = [line.strip() for line in a.readlines()]
+
+    if len(argv) > 0:
+        names = [argv[0]]
+    elif os.path.isfile('nameList.txt'):
         f = open('nameList.txt', 'r')
         names = [line.strip() for line in f.readlines()]
     else:
@@ -68,6 +72,30 @@ def main(argv):
 
     for steamName in names:
         scrape_links(steamName, gameName)
+
+    wb = xlwt.Workbook()
+    items = allNames.items()
+    print type(items)
+    items.sort(key=lambda t : tuple(t[0].lower()))
+    ws = wb.add_sheet(gameName);
+
+    i = 1
+    col = len(items)+1
+    ws.col(0).width = 10000
+    for key in achs:
+        ws.write(i, 0, key)
+        ws.write(i, col, xlwt.Formula('SUM(B' + str(i+1) + ':' + str(chr(ord('B') + (col-2))) + str(i+1) + ')'))
+        i+=1
+    i = 1
+    for key, value in items:
+        ws.write(0, i, key)
+        ws.col(i).width = len(key)*300;
+        for v in value[gameName]:
+            vIndex = achs.index(v)
+            ws.write(vIndex+1, i, int(1))
+        i+=1
+
+    wb.save('Achievements.xls');
 
 if __name__ == '__main__':
     import time
