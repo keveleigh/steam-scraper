@@ -62,6 +62,18 @@ def main(argv):
     a = open('allAchievements.txt', 'r')
     achs = [line.strip() for line in a.readlines()]
 
+    achNames = []
+    achTypes = []
+    achMaps = []
+    for line in achs:
+        lineSplit = line.split('|')
+        achNames.append(lineSplit[0])
+        achTypes.append(lineSplit[1])
+        if len(lineSplit) > 2:
+            achMaps.append(lineSplit[2])
+        else:
+            achMaps.append('');
+
     if len(argv) > 0:
         names = [argv[0]]
     elif os.path.isfile('nameList.txt'):
@@ -81,16 +93,19 @@ def main(argv):
     i = 1
     col = len(items)+1
     ws.col(0).width = 10000
-    for key in achs:
+    for key in achNames:
         ws.write(i, 0, key)
         ws.write(i, col, xlwt.Formula('SUM(B' + str(i+1) + ':' + str(chr(ord('B') + (col-2))) + str(i+1) + ')'))
+        ws.write(i, col+1, achTypes[i-1])
+        ws.write(i, col+2, achMaps[i-1])
         i+=1
+        
     i = 1
     for key, value in items:
         ws.write(0, i, key)
         ws.col(i).width = len(key)*300;
         for v in value[gameName]:
-            vIndex = achs.index(v)
+            vIndex = achNames.index(v)
             ws.write(vIndex+1, i, int(1))
         i+=1
 
