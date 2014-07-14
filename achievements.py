@@ -12,7 +12,7 @@ Command format: python achievements.py [SteamID [GameName]]
 """
 
 import urllib2
-import xlwt
+import xlsxwriter
 import sys
 import os
 from bs4 import BeautifulSoup as bs
@@ -72,7 +72,7 @@ def main(argv):
         if len(lineSplit) > 2:
             achMaps.append(lineSplit[2])
         else:
-            achMaps.append('');
+            achMaps.append('')
 
     if len(argv) > 0:
         names = [argv[0]]
@@ -85,17 +85,18 @@ def main(argv):
     for steamName in names:
         scrape_links(steamName, gameName)
 
-    wb = xlwt.Workbook()
+    wb = xlsxwriter.Workbook('KFAchievements.xlsx')
     items = allNames.items()
     items.sort(key=lambda t : tuple(t[0].lower()))
-    ws = wb.add_sheet(gameName);
+    ws = wb.add_worksheet(gameName)
+    ws.freeze_panes(1, 0)
+    ws.set_column(0, 0, 40)
 
     i = 1
     col = len(items)+1
-    ws.col(0).width = 10000
     for key in achNames:
         ws.write(i, 0, key)
-        ws.write(i, col, xlwt.Formula('SUM(B' + str(i+1) + ':' + str(chr(ord('B') + (col-2))) + str(i+1) + ')'))
+        ws.write_formula(i, col, '=SUM(B' + str(i+1) + ':' + str(chr(ord('B') + (col-2))) + str(i+1) + ')')
         ws.write(i, col+1, achTypes[i-1])
         ws.write(i, col+2, achMaps[i-1])
         i+=1
@@ -103,13 +104,17 @@ def main(argv):
     i = 1
     for key, value in items:
         ws.write(0, i, key)
-        ws.col(i).width = len(key)*300;
+        ws.set_column(i, i, len(key)+2)
         for v in value[gameName]:
             vIndex = achNames.index(v)
-            ws.write(vIndex+1, i, int(1))
+            ws.write(vIndex+1, i, 1)
         i+=1
 
-    wb.save('Achievements.xls');
+    ws.set_column(i, i, 2)
+    ws.set_column(i+1, i+1, 10)
+    ws.set_column(i+2, i+2, 32)
+    
+    wb.close()
 
 if __name__ == '__main__':
     import time
