@@ -111,7 +111,8 @@ def main(argv):
             ws.write(vIndex+1, i, 1)
         i+=1
 
-    ws.write(0, 0, 'Achievement Name', bold)
+    t = time.strftime("%x %I:%M:%S %p %Z")
+    ws.write(0, 0, t, bold)
     ws.write(0, i, 'Total', bold)
     ws.write(0, col+1, 'Type', bold)
     ws.write(0, col+2, 'Map', bold)
