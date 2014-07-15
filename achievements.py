@@ -86,6 +86,7 @@ def main(argv):
         scrape_links(steamName, gameName)
 
     wb = xlsxwriter.Workbook('KFAchievements.xlsx')
+    bold = wb.add_format({'bold': True})
     items = allNames.items()
     items.sort(key=lambda t : tuple(t[0].lower()))
     ws = wb.add_worksheet(gameName)
@@ -103,14 +104,19 @@ def main(argv):
         
     i = 1
     for key, value in items:
-        ws.write(0, i, key)
-        ws.set_column(i, i, len(key)+2)
+        ws.write(0, i, key, bold)
+        ws.set_column(i, i, len(key)+1.5)
         for v in value[gameName]:
             vIndex = achNames.index(v)
             ws.write(vIndex+1, i, 1)
         i+=1
 
-    ws.set_column(i, i, 2)
+    ws.write(0, 0, 'Achievement Name', bold)
+    ws.write(0, i, 'Total', bold)
+    ws.write(0, col+1, 'Type', bold)
+    ws.write(0, col+2, 'Map', bold)
+    
+    ws.set_column(i, i, 5)
     ws.set_column(i+1, i+1, 10)
     ws.set_column(i+2, i+2, 32)
     
