@@ -15,9 +15,10 @@ import urllib2
 import xlsxwriter
 import sys
 import os
+import collections
 from bs4 import BeautifulSoup as bs
 
-allNames = {}
+allNames = collections.OrderedDict()
 
 def application(environ, start_response):
     status = '200 OK'
@@ -94,7 +95,7 @@ def main(argv):
     wb = xlsxwriter.Workbook('KFAchievements.xlsx')
     bold = wb.add_format({'bold': True})
     items = allNames.items()
-    items.sort(key=lambda t : tuple(t[0].lower()))
+##    items.sort(key=lambda t : tuple(t[0].lower()))
     ws = wb.add_worksheet(gameName)
     ws.freeze_panes(1, 0)
     ws.set_column(0, 0, 40)
