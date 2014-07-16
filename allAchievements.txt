@@ -163,12 +163,12 @@ Trick, not Treat|Halloween
 Rule The Roost|Halloween
 Burning Irony|???
 Highlander|???
-Bloody Yanks|???
-Finish Him|???
-I love ze Healing not ze Hurting|???
+Bloody Yanks|Weapon
+Finish Him|Weapon
+I love ze Healing not ze Hurting|Weapon
 Italian Meat Pasta|???
-Feeling Lucky?|???
-We Have Ourselves a Cowboy|???
+Feeling Lucky?|Weapon
+We Have Ourselves a Cowboy|Weapon
 Snow Cone|Normal|Ice Cave
 Stay Frosty|Hard|Ice Cave
 On the Rocks|Suicidal|Ice Cave
