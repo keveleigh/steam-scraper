@@ -2,9 +2,9 @@
 
 """
 This scrapes achievement info from Steam.
-It uses BeautifulSoup 4 and xlwt.
+It uses BeautifulSoup 4 and xlsxwriter.
 
-In order to use this, you will need to download bs4 and xlwt.
+In order to use this, you will need to download bs4 and xlsxwriter.
 
 Dictionary format: {Steam Name: [{GameName1: [Achievement1, Achievement2, Achievement3, ... , AchievementN]}, ... , {GameNameN: [Achievement1, Achievement2, Achievement3, ... AchievementN]}]}
 
@@ -19,12 +19,6 @@ import collections
 from bs4 import BeautifulSoup as bs
 
 allNames = collections.OrderedDict()
-
-def application(environ, start_response):
-    status = '200 OK'
-    response_headers = [('Content-type', 'text/plain')]
-    start_response(status, response_headers)
-    yield 'Hello from Azure Websites\n'
 
 def _format_steam_url(steamName, gameName):
     """Format Steam link to scrape individual achievements from."""
