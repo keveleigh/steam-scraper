@@ -234,9 +234,9 @@ Fork Lift Operator|Normal|Fright Yard Objective
 Truck Driver|Hard|Fright Yard Objective
 Crane Operator|Suicidal|Fright Yard Objective
 Shipping Magnate|Hell|Fright Yard Objective
-Claw Machine Master|???
-Ex-scientist|???
-777|???
+Claw Machine Master|Objective
+Ex-scientist|Objective
+777|Objective
 Blinding Big Brother|Collect
 Fire and Forget|Halloween
 Under The Weather|Halloween
@@ -273,3 +273,8 @@ Totally Metal|Objective
 Multi-pass|Objective
 Science Hater|Collect
 Doctor WHO??|Other
+Gone clubbing|Normal|Clandestine
+Rack 'em up|Hard|Clandestine
+Burned out|Suicidal|Clandestine
+Hangover from Hell|Hell|Clandestine
+Skull Cracker|Collect
